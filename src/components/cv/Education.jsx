@@ -1,9 +1,10 @@
 import { FiBook } from 'react-icons/fi';
-import { education } from '../../data/data';
+import { education } from '../../../data/data';
 
 const Education = () => {
   return (
     <div className="space-y-4">
+      <hr className='text-gray-400 my-10'/>
       <div className="flex items-center gap-2">
         <FiBook className="text-blue-600" />
         <h2 className="text-xl font-bold">Education</h2>

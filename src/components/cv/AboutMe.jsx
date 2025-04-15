@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
-import { myInfo } from '../../data/data';
+import { myInfo } from '../../../data/data';
 
 const AboutMe = () => {
   return (
