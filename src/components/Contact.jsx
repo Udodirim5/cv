@@ -1,10 +1,84 @@
+import { useState } from "react";
 // eslint-disable-next-line
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { FiMail } from "react-icons/fi";
 import { myInfo } from "../../data/data";
 
+const baseUrl =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5173"
+    : "https://zeirrow.vercel.app";
+
 const Contact = () => {
+  const [status, setStatus] = useState(null); // null, 'success', 'error'
+  const [message, setMessage] = useState("");
+  const contactLinks = [
+    {
+      icon: <FaGithub />,
+      color: "hover:text-gray-300",
+      bg: "bg-gray-700",
+      url: `https://github.com/${myInfo.contact.github}`,
+    },
+    {
+      icon: <FaLinkedin />,
+      color: "hover:text-blue-400",
+      bg: "bg-blue-600/20",
+      url: myInfo.contact.linkedIn,
+    },
+    {
+      icon: <FaTwitter />,
+      color: "hover:text-cyan-400",
+      bg: "bg-cyan-500/20",
+      url: myInfo.contact.twitter,
+    },
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Track loading state, success, or error
+
+    const formData = new FormData(e.target);
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
+    try {
+      setStatus("loading"); // Set loading state
+      const res = await fetch(`${baseUrl}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Success handling
+        setStatus("success");
+        setMessage("Your message was sent successfully!");
+      } else {
+        // Handle errors (if any) returned by the server
+        setStatus("error");
+        setMessage(data?.message || "Something went wrong!");
+      }
+      // Reset the form
+      e.target.reset();
+    } catch (error) {
+      // Error handling
+      setStatus("error");
+      setMessage("Failed to send the message. Please try again later.");
+      console.error("Error:", error.message);
+    } finally {
+      setTimeout(() => setMessage(""), 5000); // Clear message after 5 seconds
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-gray-900/50 backdrop-blur-sm">
       <div className="container mx-auto px-6">
@@ -62,27 +136,14 @@ const Contact = () => {
                 <div className="mt-12">
                   <h4 className="font-medium mb-4">Connect with me</h4>
                   <div className="flex gap-4">
-                    {[
-                      {
-                        icon: <FaGithub />,
-                        color: "hover:text-gray-300",
-                        bg: "bg-gray-700",
-                      },
-                      {
-                        icon: <FaLinkedin />,
-                        color: "hover:text-blue-400",
-                        bg: "bg-blue-600/20",
-                      },
-                      {
-                        icon: <FaTwitter />,
-                        color: "hover:text-cyan-400",
-                        bg: "bg-cyan-500/20",
-                      },
-                    ].map((social, index) => (
+                    {contactLinks.map((social, index) => (
                       <motion.a
                         key={index}
                         whileHover={{ y: -3 }}
-                        href="#"
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Link to ${social.url}`}
                         className={`w-10 h-10 rounded-full ${social.bg} flex items-center justify-center text-gray-400 ${social.color} transition-colors`}
                       >
                         {social.icon}
@@ -93,7 +154,7 @@ const Contact = () => {
               </div>
 
               <div className="p-8 md:p-12">
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label
                       htmlFor="name"
@@ -104,6 +165,7 @@ const Contact = () => {
                     <input
                       type="text"
                       id="name"
+                      name="name"
                       className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 outline-none transition-all"
                       placeholder="Your name"
                     />
@@ -118,6 +180,7 @@ const Contact = () => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 outline-none transition-all"
                       placeholder="your@email.com"
                     />
@@ -131,10 +194,17 @@ const Contact = () => {
                     </label>
                     <textarea
                       id="message"
+                      name="message"
                       rows="4"
                       className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 outline-none transition-all"
                       placeholder="Your message here..."
                     ></textarea>
+                    {status === "success" && (
+                      <p className="text-green-500 bg-green-300/10 rounded-xl p-1">{message}</p>
+                    )}
+                    {status === "error" && (
+                      <p className="text-red-500 bg-red-300/10 rounded-xl p-1">{message}</p>
+                    )}
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -142,7 +212,9 @@ const Contact = () => {
                     type="submit"
                     className="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium shadow-lg hover:shadow-cyan-500/30 transition-all"
                   >
-                    Send Message
+                    {status === "loading"
+                      ? "Sending your message.."
+                      : "Send Message"}
                   </motion.button>
                 </form>
               </div>

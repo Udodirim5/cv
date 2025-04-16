@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CV from "./page/CV";
-import Portfolio from "./page/HpmePage";
+import Portfolio from "./page/HomePage";
 
 const App = () => {
   return (

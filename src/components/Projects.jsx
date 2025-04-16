@@ -40,9 +40,13 @@ const Projects = () => {
               <div className="relative overflow-hidden h-48">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-600/10"></div>
                 <div className="absolute inset-0 bg-gray-700 flex items-center justify-center">
-                  <span className="text-gray-500 text-lg">
-                    Project Screenshot
-                  </span>
+                  <img
+                    src={project.screenshot}
+                    alt="screenshot of the site"
+                    className="text-gray-500 text-lg"
+                    onError={(e) => { e.target.src = "/images/fallback-image.png"; }}
+                    loading="lazy"
+                  />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                   <div className="flex gap-3">
@@ -54,7 +58,7 @@ const Projects = () => {
                       href={project.github}
                       className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-300 hover:text-cyan-400 transition-colors"
                       target="_blank"
-                      >
+                    >
                       <FaGithub />
                     </motion.a>
                     <motion.a

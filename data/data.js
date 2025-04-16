@@ -21,11 +21,13 @@ export const myInfo = {
   id: 1,
   title: "Frontend Developer",
   description: `Motivated and self-taught frontend developer with hands-on experience building responsive and interactive web applications. Passionate about turning ideas into functional, user-friendly interfaces. Eager to contribute to a professional development team and grow through real-world challenges.`,
+  website: "zeirrow.dev",
   contact: {
     email: "udodirimwisdom@gmail.com",
     phone: "2349033951020",
     github: "udodirim5",
-    website: "johndoe",
+    linkedIn: "https://www.linkedin.com/in/nnodimele-udodirim-5a5a5a5a",
+    twitter: "https://twitter.com/zeirrow",
   },
 };
 
@@ -52,6 +54,7 @@ export const projects = [
     tech: ["React", "Tailwind", "CodeMirror"],
     github: `${github}/code-to-video`,
     live: "https://code-to-video.vercel.app/",
+    screenshot: "/screenshots/code2video.png",
   },
   {
     id: 2,
@@ -61,15 +64,17 @@ export const projects = [
     tech: ["React", "TypeScript", "Tailwind CSS", "Redux"],
     github: `${github}/task-flow`,
     live: "https://task-flow-beta-pearl.vercel.app/",
+    screenshot: "/screenshots/taskFlow.png",
   },
   {
     id: 3,
     title: "Pizza Delivery App",
     description:
       "Frontend that fetches pizza menu from backend API and sends orders via POST requests.",
-    tech: ["React", "API Integration", "Tailwind"],
+    tech: ["React", "API Integration", "Tailwind", "Redux"],
     github: `${github}/pizza-delivery`,
-    live: "https://github.com/Udodirim5/pizza-delivery",
+    live: "https://udodirim5.github.io/pizza-delivery/",
+    screenshot: "/screenshots/fast-pizza.png",
   },
 ];
 
@@ -85,8 +90,7 @@ export const experience = [
     year: "2019 - 2022",
     title: "Frontend Developer",
     company: "Digital Solutions",
-    description:
-      "Built responsive UIs and implemented design systems.",
+    description: "Built responsive UIs and implemented design systems.",
   },
   {
     year: "2017 - 2019",
@@ -95,7 +99,7 @@ export const experience = [
     description:
       "Assisted in full-stack development and learned modern frameworks.",
   },
-]
+];
 
 export const education = [
   {

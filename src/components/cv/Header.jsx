@@ -1,7 +1,10 @@
 import { FiMail, FiPhone, FiGithub, FiGlobe, FiDownload } from 'react-icons/fi';
 import { myInfo } from '../../../data/data';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
+  const [name, ext] = myInfo.website.split(".");
+
   return (
     <div className="bg-blue-600 text-white p-6 rounded-t-xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
@@ -31,7 +34,7 @@ const Header = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiGlobe className="text-blue-200" />
-              <span>www.{myInfo.contact.website}.com</span>
+              <Link to='/'>www.{name}.{ext}</Link>
             </div>
           </div>
         </div>
